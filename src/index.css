@@ -1,85 +1,182 @@
-:root {
-  --ink: #1a2c38;
-  --ink-soft: #3d5564;
-  --mist: #e8f2f7;
-  --foam: #f3f8fb;
-  --sky: #8ebfd6;
-  --sky-deep: #5f93ad;
-  --ice: #cfe3ee;
-  --pearl: #d9e4ea;
-  --cream: #ffffff;
-  --glass: rgba(255, 255, 255, 0.45);
-  --line: rgba(26, 44, 56, 0.12);
-  --shadow: 0 30px 70px rgba(60, 110, 140, 0.18);
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Sora', sans-serif;
-  color: var(--ink);
-  background: var(--foam);
-  font-family: var(--font-body);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+@theme {
+  --font-sans: 'Jost', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+
+  /* Teal + champagne gold — matched to the cream product shot */
+  --color-cream: #f0f7f8;
+  --color-sand: #c5dde2;
+  --color-latte: #5a9aaa;
+  --color-mocha: #3d7a88;
+  --color-espresso: #0a3a44;
+  --color-teal: #0d5c6b;
+  --color-teal-deep: #062f38;
+  --color-teal-mid: #1a7a8a;
+  --color-gold: #d4af37;
+  --color-gold-light: #e8d48a;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  html {
+    background: #0a3a44;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    background: var(--color-cream);
+    color: var(--color-espresso);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-gold) 45%, transparent);
+    color: var(--color-espresso);
+  }
+
+  canvas {
+    display: block;
+    touch-action: pan-y;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  background: var(--foam);
-  color: var(--ink);
+/* ── Hero: cinematic still background + feathered video focal ── */
+.hero-cinematic-photo {
+  filter: saturate(1.05) brightness(0.92);
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+.hero-cinematic-ambient {
   background:
-    radial-gradient(ellipse 70% 50% at 12% 8%, rgba(142, 191, 214, 0.35), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 88% 12%, rgba(207, 227, 238, 0.7), transparent 50%),
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(95, 147, 173, 0.16), transparent 55%),
-    linear-gradient(180deg, #eef5f9 0%, #f3f8fb 45%, #e7f0f5 100%);
+    radial-gradient(ellipse 50% 45% at 50% 48%, rgba(6, 47, 56, 0.12) 0%, transparent 70%),
+    linear-gradient(90deg, rgba(4, 28, 34, 0.28) 0%, transparent 28%, transparent 72%, rgba(6, 47, 56, 0.22) 100%),
+    linear-gradient(180deg, rgba(4, 28, 34, 0.35) 0%, transparent 22%, transparent 78%, rgba(4, 28, 34, 0.4) 100%);
+  pointer-events: none;
 }
 
-#root {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
+.hero-cinematic-bokeh {
+  background:
+    radial-gradient(circle 5vw at 42% 40%, rgba(255, 180, 90, 0.14) 0%, transparent 70%),
+    radial-gradient(circle 3.5vw at 55% 32%, rgba(232, 212, 138, 0.1) 0%, transparent 72%),
+    radial-gradient(circle 7vw at 78% 48%, rgba(26, 122, 138, 0.16) 0%, transparent 75%),
+    radial-gradient(ellipse 40% 35% at 50% 50%, rgba(168, 228, 240, 0.06) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  pointer-events: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.hero-cinematic-focal {
+  width: min(100vw, calc(100svh * 720 / 1280));
+  height: min(100svh, calc(100vw * 1280 / 720));
+  -webkit-mask-image: radial-gradient(
+    ellipse 78% 84% at 50% 48%,
+    #000 36%,
+    rgba(0, 0, 0, 0.92) 52%,
+    rgba(0, 0, 0, 0.45) 68%,
+    transparent 82%
+  );
+  mask-image: radial-gradient(
+    ellipse 78% 84% at 50% 48%,
+    #000 36%,
+    rgba(0, 0, 0, 0.92) 52%,
+    rgba(0, 0, 0, 0.45) 68%,
+    transparent 82%
+  );
 }
 
-button,
-a {
-  font: inherit;
+.hero-cinematic-unify {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 28, 34, 0.5) 0%,
+      rgba(6, 47, 56, 0.22) 16%,
+      transparent 34%,
+      transparent 66%,
+      rgba(10, 58, 68, 0.18) 84%,
+      rgba(6, 47, 56, 0.32) 100%
+    ),
+    radial-gradient(ellipse 48% 70% at 90% 48%, rgba(26, 122, 138, 0.2) 0%, transparent 68%),
+    radial-gradient(ellipse 78% 68% at 50% 46%, transparent 42%, rgba(4, 28, 34, 0.42) 100%);
+  pointer-events: none;
 }
 
-h1,
-h2,
-h3,
-p {
-  margin: 0;
+@media (max-width: 768px) {
+  .hero-cinematic-focal {
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 88% at 50% 46%,
+      #000 48%,
+      rgba(0, 0, 0, 0.7) 68%,
+      transparent 88%
+    );
+    mask-image: radial-gradient(
+      ellipse 90% 88% at 50% 46%,
+      #000 48%,
+      rgba(0, 0, 0, 0.7) 68%,
+      transparent 88%
+    );
+  }
+
+  .hero-cinematic-unify {
+    background:
+      linear-gradient(180deg, rgba(4, 28, 34, 0.65) 0%, transparent 26%, transparent 64%, rgba(4, 28, 34, 0.5) 100%),
+      linear-gradient(90deg, rgba(4, 28, 34, 0.35) 0%, transparent 28%, transparent 72%, rgba(6, 47, 56, 0.25) 100%),
+      radial-gradient(ellipse 80% 70% at 50% 48%, transparent 42%, rgba(4, 28, 34, 0.45) 100%);
+  }
+
+  .hero-cinematic-bokeh {
+    opacity: 0.5;
+  }
 }
 
-img {
-  max-width: 100%;
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 34s linear infinite;
+  will-change: transform;
+}
+
+.split-line-mask {
+  overflow: hidden;
   display: block;
 }
 
-::selection {
-  background: rgba(142, 191, 214, 0.35);
+.split-line {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
 }

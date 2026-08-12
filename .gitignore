@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local reference template (separate repo)
+Coffee-templates-webs-main/
+

@@ -1,0 +1,7 @@
+fps=30,
+crop=iw:ih-110:0:0,
+split=3[base][sharp_in][soft_in];
+[soft_in]nlmeans=s=5.0:p=7:r=9,hqdn3d=8:6:12:9,gblur=sigma=7:steps=3,scale=3840:-2:flags=bicubic,gblur=sigma=3:steps=1[soft];
+[sharp_in]scale=3840:-2:flags=lanczos+accurate_rnd+full_chroma_int,nlmeans=s=1.0:p=3:r=3,cas=1.0,unsharp=5:5:1.2:5:5:0.0[sharp];
+[base]scale=3840:-2:flags=bilinear,format=gray,geq=lum='255*max(0\,min(1\,1.08-pow(hypot((X-W*0.57)/(W*0.155)\,(Y-H*0.56)/(H*0.28))/1.0\,2.4)))'[mask];
+[soft][sharp][mask]maskedmerge
